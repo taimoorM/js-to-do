@@ -271,6 +271,7 @@
 
       //form submission
       const formEl = document.querySelector("form");
+      const ulEl = document.querySelector("ul");
 
       //listen for the submit on the form
 
@@ -294,7 +295,7 @@
 
           //append the paragraph to listItem and the listItem to the ul
           listItem.appendChild(paragraphEl);
-          document.querySelector("ul").appendChild(listItem);
+          ulEl.appendChild(listItem);
 
           //Clearing input on submit
           inputEl.value = "";
@@ -302,6 +303,22 @@
           alert("Please enter your task!");
         }
       });
+
+      //Update styling when list item is checked off
+      ulEl.addEventListener("click", function (e) {
+        if (e.target.tagName === "I") {
+          updateToDo(e.target);
+        }
+      });
+
+      //function to handle updating listItem
+      const updateToDo = (icon) => {
+        icon.classList.toggle("fa-square");
+        icon.classList.toggle("fa-check-square");
+        icon.parentElement.classList.toggle("text-muted");
+      };
+
+      ulEl.pa;
     </script>
   </body>
 </html>
