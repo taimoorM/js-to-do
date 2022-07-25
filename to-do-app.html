@@ -273,6 +273,7 @@
         ref,
         push,
         onValue,
+        remove,
       } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-database.js";
       // Your web app's Firebase configuration
       const firebaseConfig = {
@@ -339,7 +340,7 @@
           console.log(toDoData[item]);
           const toDoTask = toDoData[item].description;
           const listItemElement = document.createElement("li");
-          listItemElement.innerHTML = '<i class="far fa-square"></i> ';
+          listItemElement.innerHTML = `<i class="far fa-square" id=${item}></i>`;
           listItemElement.appendChild(document.createTextNode(toDoTask));
           arrayOfToDos.push(listItemElement.outerHTML);
         }
@@ -349,10 +350,17 @@
         ulEl.innerHTML = arrayOfToDos.join("");
       });
 
+      //remove task
+
+      const removeToDo = (id) => {
+        const toDoRef = ref(database, `/${id}`);
+        remove(toDoRef);
+      };
+
       //Update styling when list item is checked off
       ulEl.addEventListener("click", function (e) {
-        if (e.target.tagName === "I") {
-          updateToDo(e.target);
+        if (event.target.tagName === "I") {
+          removeToDo(event.target.id);
         }
       });
 
