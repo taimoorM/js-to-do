@@ -294,7 +294,7 @@
       //Todo App
 
       const formElement = document.querySelector("form");
-      const ulElement = document.querySelector("ul");
+      const ulEl = document.querySelector("ul");
 
       formElement.addEventListener("submit", function (event) {
         // When the form is submitted...
@@ -327,6 +327,26 @@
 
           // clear the input field to an empty string
         }
+      });
+
+      //display todos
+      onValue(dbRef, (data) => {
+        console.log(data.val());
+        const toDoData = data.val();
+        const arrayOfToDos = [];
+
+        for (let item in toDoData) {
+          console.log(toDoData[item]);
+          const toDoTask = toDoData[item].description;
+          const listItemElement = document.createElement("li");
+          listItemElement.innerHTML = '<i class="far fa-square"></i> ';
+          listItemElement.appendChild(document.createTextNode(toDoTask));
+          arrayOfToDos.push(listItemElement.outerHTML);
+        }
+
+        console.log(arrayOfToDos);
+
+        ulEl.innerHTML = arrayOfToDos.join("");
       });
 
       //Update styling when list item is checked off
