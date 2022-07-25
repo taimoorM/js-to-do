@@ -263,44 +263,69 @@
       src="https://kit.fontawesome.com/5479c1fd3b.js"
       crossorigin="anonymous"
     ></script>
-    <script>
-      // to do app code here
-      //get user task from input
-      //display task as list item in the ul
-      //user is able toggle task completion by clicking the check box
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-app.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+      import {
+        getDatabase,
+        ref,
+        push,
+        onValue,
+      } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-database.js";
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyDwVnEB9E14EY57Vx2dO1npsMnkWBx2LpA",
+        authDomain: "todo-app-f5d1f.firebaseapp.com",
+        databaseURL: "https://todo-app-f5d1f-default-rtdb.firebaseio.com",
+        projectId: "todo-app-f5d1f",
+        storageBucket: "todo-app-f5d1f.appspot.com",
+        messagingSenderId: "624968220366",
+        appId: "1:624968220366:web:cca52eb8ccc05d61e05a9f",
+      };
 
-      //form submission
-      const formEl = document.querySelector("form");
-      const ulEl = document.querySelector("ul");
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const database = getDatabase(app);
+      // create reference to DB
+      const dbRef = ref(database);
 
-      //listen for the submit on the form
+      //Todo App
 
-      formEl.addEventListener("submit", function (e) {
-        e.preventDefault();
-        //store input element in variable
-        const inputEl = document.querySelector("input");
-        //save value from input in a variable
-        const task = inputEl.value;
+      const formElement = document.querySelector("form");
+      const ulElement = document.querySelector("ul");
 
+      formElement.addEventListener("submit", function (event) {
+        // When the form is submitted...
+        // don't actually submit the form
+        event.preventDefault();
+
+        // get the task from the input
+        const inputElement = document.querySelector("input");
+        const task = inputElement.value;
+
+        // if there is a task...
         if (task) {
-          console.log(task);
-          const listItem = document.createElement("li");
+          const toDoObj = {
+            description: task,
+          };
 
-          //Add icon to list element
-          listItem.innerHTML = `<i class="far fa-square"></i>`;
+          push(dbRef, toDoObj);
 
-          //create p for task
-          const paragraphEl = document.createElement("p");
-          paragraphEl.textContent = task;
+          inputElement.value = "";
 
-          //append the paragraph to listItem and the listItem to the ul
-          listItem.appendChild(paragraphEl);
-          ulEl.appendChild(listItem);
+          //old code
+          // add the task as a list-item
+          // const listItemElement = document.createElement("li");
+          // listItemElement.innerHTML = '<i class="far fa-square"></i> ';
+          // listItemElement.appendChild(document.createTextNode(task));
 
-          //Clearing input on submit
-          inputEl.value = "";
-        } else {
-          alert("Please enter your task!");
+          // add the new list-item element as a child to the unordered list
+          // const ulElement = document.querySelector("ul");
+          // ulElement.appendChild(listItemElement);
+
+          // clear the input field to an empty string
         }
       });
 
@@ -317,8 +342,6 @@
         icon.classList.toggle("fa-check-square");
         icon.parentElement.classList.toggle("text-muted");
       };
-
-      ulEl.pa;
     </script>
   </body>
 </html>
